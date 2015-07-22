@@ -18,6 +18,8 @@ if (!$pcfg['is_admin']) die('No admin, no dice');
 
 if (isset($_GET['proceed'])) { //SCRUB
 
+	if (!isset($_POST['sesc'])) die();
+
 	if ($_POST['sesc'] != $context['session_id']) { //We're still checking sessions though.
 		echo 'Something went wrong. Try logging out and back in.';
 		exit;
