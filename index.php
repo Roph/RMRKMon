@@ -2107,6 +2107,16 @@ elseif (isset($_GET['trade'])) { //In what will likely be the biggest function, 
 					}
 				}
 				
+				//Our submit limits are javascript based. So, you never know.
+				$submitted = count($_POST['poke_pick']);
+				
+				if ($submitted > $pcfg['trade_multi_limit']) {
+					layout_above('Error','Error');
+					echo 'Too many pokemon submitted';
+					layout_below();
+					exit;
+				}
+				
 				//Ok, from hereon I trust you.
 				layout_above('Pokemon put up for trade','Success');
 				
@@ -2210,9 +2220,12 @@ elseif (isset($_GET['trade'])) { //In what will likely be the biggest function, 
 		if ($is_owner) layout_above('Trade with '.$trainer2['name'], 'Trade with '.$trainer2['name']);
 		else echo layout_above('Trade with '.$trainer1['name'], 'Trade with '.$trainer1['name']);
 		
+	if (isset($pcfg['irc_url']) && isset($pcfg['irc_title'])) {
 		echo '
-		<div style="width:100%; text-align:center; font-size: 8px;margin-bottom: 10px;"><img src="images/pokenav.png" style="vertical-align:center;"> <a href="http://rmrk.net/?action=chat" action="_blank">RMRK IRC Chat #rmrk @ irc.rmrk.net</a></div>
+		<div style="width:100%; text-align:center; font-size: 8px;margin-bottom: 10px;">
+			<img src="images/pokenav.png" style="vertical-align:center;"> <a href="',$pcfg['irc_url'],'" action="_blank">'.htmlspecialchars($pcfg['irc_title']).'</a></div>
 		<div id="submain" style="background:url(images/vertical5px.png) top center repeat-y;overflow:auto;padding-bottom: 20px;">';
+	}
 		
 		//Now for each new step made, we show our status.
 		echo '
