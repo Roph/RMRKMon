@@ -18,11 +18,6 @@ if (!$pcfg['is_admin']) die('No admin, no dice');
 
 if (isset($_GET['proceed'])) { //SCRUB
 
-	if ($_POST['sesc'] != $context['session_id']) { //We're still checking sessions though.
-		echo 'Something went wrong. Try logging out and back in.';
-		exit;
-	}
-
 	//Get our DB handle setup
 	$file_db = new PDO('sqlite:'.$pcfg['sqlite_db'].'');
 	$file_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -48,9 +43,4 @@ if (isset($_GET['proceed'])) { //SCRUB
 	echo 'Success!';
 }
 
-else echo '
-<form action="install.php?proceed" method="post">
-	This will wipe / reset the database <strong>'.$pcfg['sqlite_db'].'</strong>.
-	<input type="hidden" name="sesc" value="'.$context['session_id'].'" />
-	<input type="submit" value="Proceed" />
-</form>';
+else echo 'This will wipe / reset the database <strong>'.$pcfg['sqlite_db'].'</strong>. <a href="?proceed">Proceed.</a>';
